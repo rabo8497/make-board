@@ -1,11 +1,43 @@
 <%- include("_header") -%>
 
-<h1>오늘의 애니</h1>
-<div>
+<h3>오늘의 애니</h3>
+
+<div class="slidebox">
+	<input type="radio" name="slide" id="slide01" checked>
+  <% for(var i = 1; i < data; i++) { %>
+    <input type="radio" name="slide" id="slide0<%= i+1 %>">
+  <% } %>
+	<ul class="slidelist">
     <% for(var i = 0; i < data; i++) { %>
-      <picture>
-        <img src="/views/popular_pictures/movie<%= i+1 %>.jpg"/>
-      </picture>
+      <% if (i === 0) { %>
+      <li class="slideitem">
+        <div>
+          <label for="slide0<%= data %>" class="left"></label>
+          <label for="slide0<%= i+2 %>" class="right"></label>
+          <a><img src="/views/popular_pictures/movie<%= i+1 %>.jpg"></a>
+        </div>
+      </li>
+      <% } %>
+      <% if (i === data-1) { %>
+        <li class="slideitem">
+          <div>
+            <label for="slide0<%= i %>" class="left"></label>
+            <label for="slide01" class="right"></label>
+            <a><img src="/views/popular_pictures/movie<%= i+1 %>.jpg"></a>
+          </div>
+        </li>
+      <% } %>
+      <% if (0 < i && i < data-1) { %>
+        <li class="slideitem">
+          <div>
+            <label for="slide0<%= i %>" class="left"></label>
+            <label for="slide0<%= i+2 %>" class="right"></label>
+            <a><img src="/views/popular_pictures/movie<%= i+1 %>.jpg"></a>
+          </div>
+        </li>
+      <% } %>
     <% } %>
+	</ul>
 </div>
+
 <%- include("_footer") -%>

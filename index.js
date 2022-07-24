@@ -55,7 +55,7 @@ app.listen(52273, function () {
 
 //start
 app.get('/', (req, res) => {
-  //console.log(num_po)
+  console.log(num_po)
   res.render("homePage", {data:num_po});
 });
 
