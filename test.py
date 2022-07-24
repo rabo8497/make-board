@@ -21,7 +21,7 @@ def hello() :
     first_image = soup.find(attrs={"data-index":str(day)})
 
     images = first_image.find_all("img")
-    image_set = []
+    print(len(images))
     j = 0
     for idx, image in enumerate(images):
 
@@ -32,7 +32,7 @@ def hello() :
         with open("./views/popular_pictures/movie{}.jpg".format(idx+1), "wb") as f: 
             f.write(image_res.content)
         j += 1
-    return j
+
 if __name__=="__main__":
-    print(hello())
+    hello()
 

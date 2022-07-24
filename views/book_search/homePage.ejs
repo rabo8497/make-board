@@ -2,42 +2,33 @@
 
 <h3>오늘의 애니</h3>
 
-<div class="slidebox">
-	<input type="radio" name="slide" id="slide01" checked>
-  <% for(var i = 1; i < data; i++) { %>
-    <input type="radio" name="slide" id="slide0<%= i+1 %>">
+<div>
+
+
+<!-- Slideshow container -->
+<div class="slideshow-container">
+  <% for(var i = 0; i < data; i++) { %>
+    <div class="mySlides jb-box">
+      <div class="numbertext"> <%= i+1 %> / <%= data %></div>
+      <img src="/views/popular_pictures/movie<%= i+1 %>.jpg" style="width:100%">
+      <div class="text"></div>
+    </div>
   <% } %>
-	<ul class="slidelist">
-    <% for(var i = 0; i < data; i++) { %>
-      <% if (i === 0) { %>
-      <li class="slideitem">
-        <div>
-          <label for="slide0<%= data %>" class="left"></label>
-          <label for="slide0<%= i+2 %>" class="right"></label>
-          <a><img src="/views/popular_pictures/movie<%= i+1 %>.jpg"></a>
-        </div>
-      </li>
-      <% } %>
-      <% if (i === data-1) { %>
-        <li class="slideitem">
-          <div>
-            <label for="slide0<%= i %>" class="left"></label>
-            <label for="slide01" class="right"></label>
-            <a><img src="/views/popular_pictures/movie<%= i+1 %>.jpg"></a>
-          </div>
-        </li>
-      <% } %>
-      <% if (0 < i && i < data-1) { %>
-        <li class="slideitem">
-          <div>
-            <label for="slide0<%= i %>" class="left"></label>
-            <label for="slide0<%= i+2 %>" class="right"></label>
-            <a><img src="/views/popular_pictures/movie<%= i+1 %>.jpg"></a>
-          </div>
-        </li>
-      <% } %>
-    <% } %>
-	</ul>
+
+  <!-- Next and previous buttons -->
+  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+  <a class="next" onclick="plusSlides(1)">&#10095;</a>
 </div>
+<br>
+
+<!-- The dots/circles -->
+<div style="text-align:center">
+  <% for(var i = 0; i < data; i++) { %>
+    <span class="dot" onclick="currentSlide(i+1)"></span>
+  <% } %>
+</div>
+<script src="views/JS/app.js"></script>
+</div>
+
 
 <%- include("_footer") -%>

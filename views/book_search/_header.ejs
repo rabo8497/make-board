@@ -7,105 +7,98 @@
   <title>Eru's library</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <style>
+  * {box-sizing:border-box}
 
-* {margin:0;padding:0;box-sizing:border-box;}
-ul, li {list-style:none;}
-
-[name="slide"] {display:none;}
-.slidebox {max-width:450px;width:100%;margin:0 auto;text-align:center;} /*500->1000*/
-.slidebox img {max-width:100%;}
-.slidebox .slidelist {
-	white-space:nowrap;
-	font-size:0;
-	overflow:hidden;
-}
-.slidebox .slideitem {
-	position:relative;
-	display:inline-block;
-	vertical-align:middle;
-	width:100%;
-	transition:all .35s;
-}
-.slidebox .slideitem label {
-	position:absolute;
-	z-index:1;
-	top:50%;
-	transform:translateY(-50%);
-	padding:20px;
-	border-radius:50%;
-	cursor:pointer;
-}
-label.left {
-	left:20px;
-	background-color:rgba(94, 94, 94, 0); /*5F5F5F*/
-	background-image:url('./img/left-arrow.png');
-	background-position:center center;
-	background-size:50%;
-	background-repeat:no-repeat;
-}
-label.right {
-	right:20px;
-	background-color:rgba(95, 95, 95, 0);
-	background-image:url('./img/right-arrow.png');
-	background-position:center center;
-	background-size:50%;
-	background-repeat:no-repeat;
+/* Slideshow container */
+.slideshow-container {
+  max-width: 500px;
+  position: relative;
+  margin: auto;
 }
 
-/* 페이징 스타일 */
-.paginglist {text-align:center;padding:30px 0;}
-.paginglist > li {display:inline-block;vertical-align:middle;margin:0 10px;}
-.paginglist > li > label {display:block;padding:10px 30px;border-radius:10px;background:#ccc;cursor:pointer;}
-.paginglist > li:hover > label {background:#333;}
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
 
-[id="slide01"]:checked ~ .slidelist .slideitem {transform:translateX(0);animation:slide01 20s infinite;}
-[id="slide02"]:checked ~ .slidelist .slideitem {transform:translateX(-100%);animation:slide02 20s infinite;}
-[id="slide03"]:checked ~ .slidelist .slideitem {transform:translateX(-200%);animation:slide03 20s infinite;}
-[id="slide04"]:checked ~ .slidelist .slideitem {transform:translateX(-300%);animation:slide04 20s infinite;}
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
 
-@keyframes slide01 {
-	0% {left:0%;}
-	23% {left:0%;}
-	25% {left:-100%;}
-	48% {left:-100%;}
-	50% {left:-200%;}
-	73% {left:-200%;}
-	75% {left:-300%;}
-	98% {left:-300%;}
-	100% {left:0%;}
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
 }
-@keyframes slide02 {
-	0% {left:0%;}
-	23% {left:0%;}
-	25% {left:-100%;}
-	48% {left:-100%;}
-	50% {left:-200%;}
-	73% {left:-200%;}
-	75% {left:100%;}
-	98% {left:100%;}
-	100% {left:0%;}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
 }
-@keyframes slide03 {
-	0% {left:0%;}
-	23% {left:0%;}
-	25% {left:-100%;}
-	48% {left:-100%;}
-	50% {left:200%;}
-	73% {left:200%;}
-	75% {left:100%;}
-	98% {left:100%;}
-	100% {left:0%;}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
 }
-@keyframes slide04 {
-	0% {left:0%;}
-	23% {left:0%;}
-	25% {left:300%;}
-	48% {left:300%;}
-	50% {left:200%;}
-	73% {left:200%;}
-	75% {left:100%;}
-	98% {left:100%;}
-	100% {left:0%;}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+.jb-box {
+  transition: all ease 1s;
+}
+.jb-box:hover {
+  transform: scale(1.2);
 }
   </style>
 </head>

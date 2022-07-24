@@ -4,30 +4,24 @@ const ejs = require('ejs')
 const mysql = require('mysql')
 const path = require("path");
 const bodyParser = require('body-parser')
-//함수 모음
+var day = 1; 
+
+re_popular_file(day); //day : 월~일 = 0~6
+
+
+//외부 파이썬 실행
 var num_po = 0
 function re_popular_file(num) {
   const spawn = require('child_process').spawn;
   const process = spawn('python3', ['test.py', num]); //0은 날짜를 나타낸다 -> 이후에 날짜 적용
   process.stdout.on('data', function (data) {
-      //console.log(data.toString());
+    num_po = data.toString();
   });
   process.stderr.on('data', function (data) {
       //console.log(data.toString());
   });
 }
 
-function num_popular_file() {
-  const fs = require('fs');
-  const dir = './views/popular_pictures';
-
-  fs.readdir(dir, (err, files) => {
-    num_po =  files.length;
-  });
-}
-
-//re_popular_file(1) //날자 바꾸는 명령어
-num_popular_file()
 
 //자바스크립트
 const client = mysql.createConnection({
@@ -41,9 +35,9 @@ const app = express()
 app.use(bodyParser.urlencoded({
   extended: false
 }))
-///
+
 app.use("/views", express.static(__dirname + "/views"));
-///
+
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views/book_search")); 
