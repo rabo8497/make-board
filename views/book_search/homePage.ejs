@@ -1,0 +1,11 @@
+<%- include("_header") -%>
+
+<h1>오늘의 애니</h1>
+<div>
+    <% for(var i = 0; i < data; i++) { %>
+      <picture>
+        <img src="/views/popular_pictures/movie<%= i+1 %>.jpg"/>
+      </picture>
+    <% } %>
+</div>
+<%- include("_footer") -%>
