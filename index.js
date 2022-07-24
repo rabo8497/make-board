@@ -4,10 +4,12 @@ const ejs = require('ejs')
 const mysql = require('mysql')
 const path = require("path");
 const bodyParser = require('body-parser')
-var day = 1; 
-
+var d = new Date();
+var week = new Array(6, 0, 1, 2, 3, 4, 5);
+var day = week[d.getDay()]; 
+var anime_name = [];
 re_popular_file(day); //day : 월~일 = 0~6
-
+re_popular_name(day)
 
 //외부 파이썬 실행
 var num_po = 0
@@ -15,12 +17,31 @@ function re_popular_file(num) {
   const spawn = require('child_process').spawn;
   const process = spawn('python3', ['test.py', num]); //0은 날짜를 나타낸다 -> 이후에 날짜 적용
   process.stdout.on('data', function (data) {
+
     num_po = data.toString();
   });
   process.stderr.on('data', function (data) {
-      //console.log(data.toString());
+  
   });
 }
+
+function re_popular_name(num) {
+  const spawn = require('child_process').spawn;
+  const process = spawn('python3', ['test-d.py', num]); //0은 날짜를 나타낸다 -> 이후에 날짜 적용
+  process.stdout.on('data', function (data) {
+  });
+  process.stderr.on('data', function (data) {
+
+  });
+}
+
+function get_name() {
+  var array = fs.readFileSync('./views/anime_name.txt').toString().split("\n");
+  for(i in array) {
+    anime_name.push(array[i].slice(0, -1));
+  }
+}
+
 
 
 //자바스크립트
@@ -29,6 +50,7 @@ const client = mysql.createConnection({
   password: 'kim00714',
   database: 'books' 
 })
+
 
 const app = express()
 
@@ -49,8 +71,10 @@ app.listen(52273, function () {
 
 //start
 app.get('/', (req, res) => {
-  console.log(num_po)
-  res.render("homePage", {data:num_po});
+  get_name()
+  //console.log(num_po)
+  //console.log(anime_name)
+  res.render("homePage", {data:num_po, value:anime_name});
 });
 
 
