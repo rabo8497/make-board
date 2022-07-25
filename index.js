@@ -106,11 +106,13 @@ app.get('/', (req, res) => {
 
 //READ
 app.get("/book", (req, res) => {
+  console.log("1213123132")
   const sql = "select * from bookList";
   client.query(sql, (err, data) => {
     if(err) {
       return console.error(err);
     }
+    console.log("aasssasasas")
     res.render("book", {model: data});
   });
 });
