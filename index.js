@@ -73,43 +73,7 @@ app.use("/views", express.static(__dirname + "/views"));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views/book_search")); 
-/////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////
-/*
-app.listen(52273, function () {
-  console.log('Server is running at : http://127.0.0.1:52273')
-})
-*/
 
 //start
 app.get('/', (req, res) => {
