@@ -5,21 +5,29 @@ const ejs = require('ejs')
 const mysql = require('mysql')
 const path = require("path");
 const bodyParser = require('body-parser')
-
-/*
-import express from 'express'
-import fs from 'fs'
-import ejs from 'ejs'
-import mysql from 'mysql'
-import path from 'path'
-import bodyParser from 'body-parser'
-*/
-var d = new Date();
 var week = new Array(6, 0, 1, 2, 3, 4, 5);
-var day = week[d.getDay()]; 
+var day = korea_day();
 var anime_name = [];
+var anime_link = [];
 re_popular_file(day); //day : 월~일 = 0~6
-re_popular_name(day)
+re_popular_name(day);
+
+
+function korea_day() {
+  var d = new Date();
+  var day2 = week[d.getDay()];
+  console.log(d)
+  return day2;
+}
+
+function day_select(previous_day) {
+  if (previous_day !== korea_day()) {
+    day = korea_day()
+    re_popular_file(korea_day()); //day : 월~일 = 0~6
+    re_popular_name(korea_day());
+  }
+}
+
 
 //외부 파이썬 실행
 var num_po = 0
@@ -46,9 +54,17 @@ function re_popular_name(num) {
 }
 
 function get_name() {
+  anime_name = []
   var array = fs.readFileSync('./views/anime_name.txt').toString().split("\n");
   for(i in array) {
     anime_name.push(array[i].slice(0, -1));
+  }
+}
+function get_link() {
+  anime_link = []
+  var array = fs.readFileSync('./views/anime_link.txt').toString().split("\n");
+  for(i in array) {
+    anime_link.push(array[i].slice(0, -1));
   }
 }
 
@@ -77,10 +93,10 @@ app.set("views", path.join(__dirname, "views/book_search"));
 
 //start
 app.get('/', (req, res) => {
+  day_select(day)
   get_name()
-  //console.log(num_po)
-  //console.log(anime_name)
-  res.render("homePage", {data:num_po, value:anime_name});
+  get_link()
+  res.render("homePage", {data:num_po, value:anime_name, img_src:anime_link});
 });
 
 
@@ -199,8 +215,7 @@ wsServer.on("connection", (socket) => {
     socket.to(roomName).emit("ice", ice);
   });
 });
-
-const handleListen = () => console.log(`Listening on http://localhost:3000`);
-
 var port = process.env.PORT || 52273;
+const handleListen = () => console.log(`Listening on http://localhost:${port}`);
+
 httpServer.listen(port, handleListen);
