@@ -88,7 +88,6 @@ app.get('/', (req, res) => {
 app.get("/book", (req, res) => {
   const sql = "select * from bookList";
   client.query(sql, (err, data) => {
-    //console.log(data);
     if(err) {
       return console.error(err);
     }
