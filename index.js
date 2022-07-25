@@ -97,6 +97,7 @@ app.get('/', (req, res) => {
   day_select(day)
   get_name()
   get_link()
+  console.log(num_po)
   console.log(anime_name)
   console.log(anime_link)
   res.render("homePage", {data:num_po, value:anime_name, img_src:anime_link});
