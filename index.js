@@ -11,7 +11,7 @@ var anime_name = [];
 var anime_link = [];
 re_popular_file(day); //day : 월~일 = 0~6
 re_popular_name(day);
-
+var port = process.env.PORT || 52273;
 
 function korea_day() {
   var d = new Date();
@@ -97,22 +97,20 @@ app.get('/', (req, res) => {
   day_select(day)
   get_name()
   get_link()
-  console.log(num_po)
+  /* console.log(num_po)
   console.log(anime_name)
-  console.log(anime_link)
+  console.log(anime_link) */
   res.render("homePage", {data:num_po, value:anime_name, img_src:anime_link});
 });
 
 
 //READ
 app.get("/book", (req, res) => {
-  console.log("1213123132")
   const sql = "select * from bookList";
   client.query(sql, (err, data) => {
     if(err) {
       return console.error(err);
     }
-    console.log("aasssasasas")
     res.render("book", {model: data});
   });
 });
@@ -221,7 +219,7 @@ wsServer.on("connection", (socket) => {
     socket.to(roomName).emit("ice", ice);
   });
 });
-var port = process.env.PORT || 52273;
+
 const handleListen = () => console.log(`Listening on http://localhost:${port}`);
 
 httpServer.listen(port, handleListen);
