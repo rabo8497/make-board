@@ -215,100 +215,27 @@ app.get("/request", (req, res)=>{
 
 /////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-import http from "http";
-import { Server } from "socket.io";
-*/
 const http = require("http");
-const { Server } = require("socket.io");
+const SocketIO = require("socket.io");
 
-var time_now = 0;
 const httpServer = http.createServer(app);
-const wsServer = new Server(httpServer, {
-  cors: {
-      origin: ["https://admin.socket.io"],
-      credentials: true,
-  },
-});
-/*
-instrument(app, {
-  auth: false, 
-});
-*/
-function publicRooms() {
-  const {
-      sockets: {
-          adapter: { sids, rooms },
-      },
-  } =wsServer;
-  const publicRooms = [];
-  rooms.forEach((_,key) => {
-      if (sids.get(key) === undefined) {
-          publicRooms.push(key);
-      }
-  });
-  return publicRooms;
-}
-function countRoom(roomName) {
-  return wsServer.sockets.adapter.rooms.get(roomName).size;
-}
+const wsServer = SocketIO(httpServer);
+
 wsServer.on("connection", (socket) => {
-  socket["nickname"] = "Anon";
-  socket.onAny((event) => {
-      console.log(`Socket Event:${event}`);
-  }); //소켓 이벤트를 찾는다
-  socket.on("enter_room", (roomName, done) => {
-
-      socket.join(roomName);
-      //console.log(socket.rooms);
-      done();
-      socket.to(roomName).emit("welcome", socket.nickname, countRoom(roomName));//방에 있는 모두에게 보내기
-      wsServer.sockets.emit("room_change", publicRooms());
+  socket.on("join_room", (roomName) => {
+    socket.join(roomName);
+    socket.to(roomName).emit("welcome");
   });
-  socket.on("disconnecting", () => {
-      socket.rooms.forEach((room) => socket.to(room).emit("bye", socket.nickname, countRoom(room) - 1));
+  socket.on("offer", (offer, roomName) => {
+    socket.to(roomName).emit("offer", offer);
   });
-  socket.on("disconnect", () => {
-      wsServer.sockets.emit("room_change", publicRooms());
-  })
-  socket.on("new_message", (msg, room, done) => {
-      socket.to(room).emit("new_message", `${socket.nickname}: ${msg}`);
-      done();
+  socket.on("answer", (answer, roomName) => {
+    socket.to(roomName).emit("answer", answer);
   });
-  socket.on("nickname", (nickname) => {
-      socket["nickname"] = nickname;
+  socket.on("ice", (ice, roomName) => {
+    socket.to(roomName).emit("ice", ice);
   });
-  ////////////////////////////////////////////
-  socket.on("give_time", (time_) => {
-      console.log(time_);
-      time_now = time_;
-      socket.broadcast.emit("same_state", time_now);
-  })
-  socket.on("choose_time", () => {
-      socket.broadcast.emit("send_yuor_time");
-  })
-  socket.on("pause1", () => {
-      socket.broadcast.emit("pause2");
-  })
-  socket.on("start1", () => {
-      socket.broadcast.emit("start2");
-  })
-  ////////////////////////////////////////////
 });
 
-httpServer.listen(52273, () => console.log("http://localhost:52273")); //서버 시작
+const handleListen = () => console.log(`Listening on http://localhost:3000`);
+httpServer.listen(52273, handleListen);
