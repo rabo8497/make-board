@@ -93,9 +93,12 @@ app.set("views", path.join(__dirname, "views/book_search"));
 
 //start
 app.get('/', (req, res) => {
+  
   day_select(day)
   get_name()
   get_link()
+  console.log(anime_name)
+  console.log(anime_link)
   res.render("homePage", {data:num_po, value:anime_name, img_src:anime_link});
 });
 
