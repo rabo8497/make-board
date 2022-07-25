@@ -201,4 +201,6 @@ wsServer.on("connection", (socket) => {
 });
 
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
-httpServer.listen(52273, handleListen);
+
+var port = process.env.PORT || 52273;
+httpServer.listen(port, handleListen);
