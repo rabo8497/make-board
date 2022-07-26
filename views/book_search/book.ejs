@@ -1,17 +1,17 @@
 <%- include("_header") -%>
 
-<h1>List of books (<%= model.length %>)</h1>
+<h1>책 찾기 (<%= model.length %>권)</h1>
 
 
 <div class="table-responsive-sm">
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Comment</th>
+        <th>제목</th>
+        <th>저자</th>
+        <th>장르</th>
         <th class="d-print-none">
-          <a class="btn btn-sm btn-success" href="/create">Add</a>
+          <a class="btn btn-sm btn-success" href="/create">추가</a>
         </th>
       </tr>
     </thead>

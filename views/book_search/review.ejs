@@ -1,0 +1,36 @@
+<%- include("_header") -%>
+
+<h1>책 리뷰 (<%= model.length %>)</h1>
+
+
+<div class="table-responsive-sm">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>제목</th>
+        <th></th>
+        <th></th>
+        <th class="d-print-none">
+          <a class="btn btn-sm btn-success" href="/create_review">추가</a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const book of model) { %>
+        <tr>
+          <td><%= book.name %></td>
+          <td></td>
+          <td></td>
+          <td class="d-print-none">
+            <a class="btn btn-sm btn-warning" href="/edit_review/<%= book.id %>">Edit</a>
+            <a class="btn btn-sm btn-danger" href="/delete_review/<%= book.id %>">Delete</div>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+
+
+<%- include("_footer") -%>

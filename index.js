@@ -77,7 +77,6 @@ const client = mysql.createConnection({
   database: 'books' 
 })
 
-
 const app = express()
 
 app.use(bodyParser.urlencoded({
@@ -114,6 +113,16 @@ app.get("/book", (req, res) => {
     res.render("book", {model: data});
   });
 });
+//
+app.get("/review", (req, res) => {
+  const sql = "select * from reviewList";
+  client.query(sql, (err, data) => {
+    if(err) {
+      return console.error(err);
+    }
+    res.render("review", {model: data});
+  });
+});
 
 
 //UPDATE
@@ -124,7 +133,7 @@ app.get("/edit/:id", (req, res)=> {
     if(err) {
       console.error(err.message);
     }
-    console.log(row);
+    //console.log(row);
     res.render("edit", {model:row[0]});
   });
 });
@@ -138,6 +147,30 @@ app.post("/edit/:id", (req, res)=>{
       console.error(err.message);
     }
     res.redirect("/book");
+  })
+});
+
+app.get("/edit_review/:id", (req, res)=> {
+  const id = req.params.id;
+  const sql = "SELECT * FROM reviewList WHERE id=?";
+  client.query(sql, [id], (err, row)=>{
+    if(err) {
+      console.error(err.message);
+    }
+    //console.log(row);
+    res.render("edit_review", {model:row[0]});
+  });
+});
+
+app.post("/edit_review/:id", (req, res)=>{
+  const id = req.params.id;
+  const book = [req.body.name, req.body.article, req.body.genre, id];
+  const sql = "UPDATE reviewList SET name=?, article=?, genre=? WHERE (id = ?)";
+  client.query(sql, book, err=> {
+    if(err) {
+      console.error(err.message);
+    }
+    res.redirect("/review");
   })
 });
 
@@ -155,6 +188,21 @@ app.post("/create", (req, res)=>{
       console.error(err.message);
     }
     res.redirect("/book");
+  });
+});
+
+app.get("/create_review", (req, res)=>{
+  res.render("create_review", {model:{} });
+});
+
+app.post("/create_review", (req, res)=>{
+  const book = [req.body.name, req.body.article, req.body.genre];
+  const sql = "INSERT INTO reviewList (name, article, genre) VALUES (?, ?, ?)";
+  client.query(sql, book, err=> {
+    if(err){
+      console.error(err.message);
+    }
+    res.redirect("/review");
   });
 });
 
@@ -180,6 +228,29 @@ app.post("/delete/:id", (req, res)=> {
       console.error(err.message);
     }
     res.redirect("/book");
+  });
+});
+
+app.get("/delete_review/:id", (req, res)=>{
+  //var isDelete = confirm(`${req.body.name}\n삭제하시겠습니까?`);
+  const id = req.params.id;
+  const sql = "SELECT * FROM reviewList WHERE id=?";
+  client.query(sql, id, (err, row)=>{
+    if(err) {
+      console.error(err.message);
+    }
+    res.render("delete_review", {model: row[0]});
+  });
+});
+
+app.post("/delete_review/:id", (req, res)=> {
+  const id = req.params.id;
+  const sql = "DELETE FROM reviewList WHERE id=?";
+  client.query(sql, id, err =>{
+    if(err) {
+      console.error(err.message);
+    }
+    res.redirect("/review");
   });
 });
 
